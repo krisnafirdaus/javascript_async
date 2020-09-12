@@ -1,19 +1,23 @@
-const getDataGithub = async () => {
-  try {
-    let response = await fetch("https://api.github.com/users/saiakrisna");
-    let data = await response.json();
+let getNegara = document.querySelector(".columns");
 
-    console.log("data Krisna", data);
+fetch("https://restcountries.eu/rest/v2/regionalbloc/asean")
+  .then((response) => {
+    return response.json();
+  })
 
-    document.getElementsByClassName("login")[0].innerHTML = `${data.login}`;
-    document.getElementsByClassName("short-bio")[0].innerHTML = `${data.bio}`;
-    document.getElementsByClassName("ava")[0].src = data.avatar_url;
-    document.getElementsByClassName("urlGit")[0].innerHTML = `${data.html_url}`;
-    document.getElementsByClassName("id")[0].innerHTML = `${data.id}`;
-    document.getElementsByClassName("rep")[0].innerHTML = `${data.updated_at}`;
-  } catch {
-    console.log("error 69");
-  }
-};
-getDataGithub();
-console.log(data);
+  .then((negara) => {
+    negara.forEach((negara) => {
+      let card = document.createElement("div");
+      card.classList.add("card");
+      card.innerHTML = `
+            <img src="${negara.flag}" alt="">
+            <div class="container">
+              <h2 class="name">${negara.name}</h2>
+              <p>${negara.altSpellings}</p>
+            </div>`;
+      getNegara.appendChild(card);
+    });
+  })
+  .catch((error) => {
+    console.log("Error Guys");
+  });
